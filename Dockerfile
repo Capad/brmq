@@ -10,7 +10,7 @@ RUN apt-get install musl-tools -y
 
 RUN rustup target add x86_64-unknown-linux-musl
 
-WORKDIR /usr/src/brmq
+WORKDIR /src/brmq
 
 COPY Cargo.toml Cargo.toml
 
