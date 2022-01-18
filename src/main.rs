@@ -1,4 +1,5 @@
-use actix_web::{get, post, App, HttpResponse, HttpServer, Responder};
+use actix_web::{get, post, middleware::Logger, App, HttpResponse, HttpServer, Responder};
+use log::info;
 // use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 
 #[get("/messages")]
@@ -48,9 +49,15 @@ async fn main() -> std::io::Result<()> {
     //     .set_private_key_file("key.pem", SslFiletype::PEM)
     //     .unwrap();
     // builder.set_certificate_chain_file("cert.pem").unwrap();
+    std::env::set_var("RUST_LOG", "info");
+    std::env::set_var("RUST_BACKTRACE", "1");
+    env_logger::init();
 
     HttpServer::new(|| {
+        let logger = Logger::default();
+
         App::new()
+            .wrap(logger)
             .service(messages)
             .service(message_by_id)
             .service(topics)
