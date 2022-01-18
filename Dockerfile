@@ -6,7 +6,7 @@ FROM rust:latest as cargo-build
 
 RUN apt-get update
 
-RUN apt-get install musl-tools -y
+RUN apt-get install musl-tools -y && apt-get -y install ca-certificates libssl-dev
 
 RUN rustup target add x86_64-unknown-linux-musl
 
@@ -22,7 +22,7 @@ RUN RUSTFLAGS=-Clinker=musl-gcc cargo build --release --target=x86_64-unknown-li
 
 RUN rm -f target/x86_64-unknown-linux-musl/release/deps/brmq*
 
-COPY . .
+COPY ./ ./
 
 RUN RUSTFLAGS=-Clinker=musl-gcc cargo build --release --target=x86_64-unknown-linux-musl
 
@@ -43,5 +43,7 @@ COPY --from=cargo-build /usr/src/brmq/target/x86_64-unknown-linux-musl/release/b
 RUN chown brmq:brmq brmq
 
 USER brmq
+
+EXPOSE 8080
 
 CMD ["./brmq"]
