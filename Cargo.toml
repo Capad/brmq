@@ -6,7 +6,9 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-actix-web = { version = "3", features = ["openssl"] }
+actix-web = { version = "3.3.3", features = ["openssl"] }
 env_logger = "0.9.0"
-log = "0.4"
-openssl = { version = "0.10" }
+log = "0.4.14"
+openssl = { version = "0.10.38" }
+moka = {version = "0.7.1", features = ["future"]}
+futures = "0.3.19"

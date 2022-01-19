@@ -1,6 +1,9 @@
+use std::time::Duration;
+
 use actix_web::{get, post, middleware::Logger, App, HttpResponse, HttpServer, Responder};
 // use log::info;
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
+use moka::future::Cache;
 
 #[get("/messages")]
 async fn messages() -> impl Responder {
@@ -53,6 +56,15 @@ async fn main() -> std::io::Result<()> {
         .set_private_key_file("key.pem", SslFiletype::PEM)
         .unwrap();
     builder.set_certificate_chain_file("cert.pem").unwrap();
+
+    let cache = Cache::builder()
+        .max_capacity(10_000)
+        .time_to_live(Duration::from_secs(60 * 60))
+        .time_to_idle(Duration::from_secs( 5 * 60))
+        .build();
+
+    // test
+    cache.insert(1, "one".to_string()).await;
 
     HttpServer::new(|| {
         let logger = Logger::default();
