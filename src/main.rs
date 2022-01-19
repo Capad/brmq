@@ -1,44 +1,13 @@
 use std::time::Duration;
-
-use actix_web::{get, post, middleware::Logger, App, HttpResponse, HttpServer, Responder};
+use actix_web::{post, middleware::Logger, App, HttpResponse, HttpServer, Responder};
 // use log::info;
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 use moka::future::Cache;
 
-#[get("/messages")]
-async fn messages() -> impl Responder {
-    HttpResponse::Ok().body("All messages:")
-}
-
-#[get("/message/{id}")]
-async fn message_by_id() -> impl Responder {
-    HttpResponse::Ok().body("Message: {id}")
-}
-
-#[get("/topics")]
-async fn topics() -> impl Responder {
-    HttpResponse::Ok().body("All topics:")
-}
-
-#[get("/topic/{id}")]
-async fn topic_by_id() -> impl Responder {
-    HttpResponse::Ok().body("Topic: {id}")
-}
-
-#[get("/publishers")]
-async fn publishers() -> impl Responder {
-    HttpResponse::Ok().body("All publishers:")
-}
-
-#[get("/publisher/{id}")]
-async fn publisher_by_id() -> impl Responder {
-    HttpResponse::Ok().body("publisher: {id}")
-}
-
-#[post("/subscribe")]
-async fn subscribe() -> impl Responder {
-    HttpResponse::Ok().body("subscribe to publisher, topic or both")
-}
+mod message;
+mod publisher;
+mod topic;
+mod subscribe;
 
 #[post("/echo")]
 async fn echo(req_body: String) -> impl Responder {
@@ -71,13 +40,13 @@ async fn main() -> std::io::Result<()> {
 
         App::new()
             .wrap(logger)
-            .service(messages)
-            .service(message_by_id)
-            .service(topics)
-            .service(topic_by_id)
-            .service(publishers)
-            .service(publisher_by_id)
-            .service(subscribe)
+            .service(message::messages)
+            .service(message::message_by_id)
+            .service(topic::topics)
+            .service(topic::topic_by_id)
+            .service(publisher::publishers)
+            .service(publisher::publisher_by_id)
+            .service(subscribe::subscribe)
     })
     .workers(4)
     .bind_openssl("127.0.0.1:8080", builder)?
