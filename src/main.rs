@@ -1,13 +1,11 @@
 use std::time::Duration;
 use actix_web::{post, middleware::Logger, App, HttpResponse, HttpServer, Responder};
+use controllers::{message::message, subscribe::subscribe, publish::publish, discard::discard};
 // use log::info;
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 use moka::future::Cache;
 
-mod message;
-mod publisher;
-mod topic;
-mod subscribe;
+mod controllers;
 
 #[post("/echo")]
 async fn echo(req_body: String) -> impl Responder {
@@ -42,13 +40,10 @@ async fn main() -> std::io::Result<()> {
 
         App::new()
             .wrap(logger)
-            .service(message::messages)
-            .service(message::message_by_id)
-            .service(topic::topics)
-            .service(topic::topic_by_id)
-            .service(publisher::publishers)
-            .service(publisher::publisher_by_id)
-            .service(subscribe::subscribe)
+            .service(message)
+            .service(subscribe)
+            .service(publish)
+            .service(discard)
     })
     .workers(4)
     .bind_openssl("127.0.0.1:8080", builder)?
