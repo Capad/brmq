@@ -1,9 +1,9 @@
-use actix_web::{get, HttpResponse, Responder};
+use serde::{Serialize, Deserialize};
 
-// #[derive(Deserialize, Serialize, Debug)]
-// pub struct Info {
-//     username: String,
-//     email: String,
-//     password: String,
-//     confirm_password: String,
-// }
+#[derive(Deserialize, Serialize)]
+pub struct Message {
+    publisher: String,
+    id: u32,
+    topic: String,
+    body: String,
+}

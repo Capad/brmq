@@ -6,6 +6,7 @@ use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 use moka::future::Cache;
 
 mod controllers;
+mod models;
 
 #[post("/echo")]
 async fn echo(req_body: String) -> impl Responder {

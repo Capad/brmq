@@ -16,3 +16,4 @@ openssl = { version = "0.10.38" }
 moka = {version = "0.7.1", features = ["future"]}
 futures = "0.3.19"
 openssl-probe = "0.1.5"
+serde = "1.0.133"
