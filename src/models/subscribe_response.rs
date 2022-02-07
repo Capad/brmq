@@ -1,6 +1,8 @@
 use serde::Serialize;
 
+use super::message::Message;
+
 #[derive(Serialize)]
 pub struct SubscribeResponse {
-    messages: String // should be list or array of messages, don't know how yet
+    messages: Vec<Message>
 }
