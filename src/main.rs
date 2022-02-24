@@ -17,6 +17,10 @@ async fn echo(req_body: String) -> impl Responder {
 async fn main() -> std::io::Result<()> {
     std::env::set_var("RUST_LOG", "info");
     std::env::set_var("RUST_BACKTRACE", "1");
+
+    let args: Vec<String> = std::env::args().collect();
+    println!("{:?}", args);
+
     env_logger::init();
 
     openssl_probe::init_ssl_cert_env_vars();
