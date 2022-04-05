@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "bungcip.better-toml",
+        "serayuzgur.crates",
+        "matklad.rust-analyzer",
+        "dustypomerleau.rust-syntax",
+        "ZakCodes.rust-snippets"
+    ]
+}
