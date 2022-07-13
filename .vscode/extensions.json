@@ -4,6 +4,7 @@
         "serayuzgur.crates",
         "matklad.rust-analyzer",
         "dustypomerleau.rust-syntax",
-        "ZakCodes.rust-snippets"
+        "zakcodes.rust-snippets",
+        "rust-lang.rust-analyzer"
     ]
 }
